@@ -1,0 +1,68 @@
+/* Performance optimizations for smoother scrolling */
+
+/* Enable hardware acceleration for components */
+.transform-gpu,
+.card-container,
+.profile-section,
+.projects-section,
+.skills-section {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Reduce repaint on scrolling elements */
+.scroll-optimize {
+  contain: content;
+}
+
+/* Optimize blur effects by reducing quality on scroll */
+.scrolling .backdrop-blur-xl {
+  backdrop-filter: blur(8px);
+}
+.scrolling .blur-md {
+  filter: blur(6px);
+}
+
+/* Disable animations during scroll to improve performance */
+.scrolling .animate-blob {
+  animation-play-state: paused;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 767px) {
+
+  /* Disable all animations */
+  .animate-blob,
+  .animate-pulse,
+  .animate-spin:not(.loading-spinner) {
+    animation: none !important;
+  }
+
+  /* Optimize all transitions to use only transform and opacity */
+  .optimize-transitions,
+  .transition-all,
+  .transition-colors,
+  .transition-opacity,
+  .transition-transform {
+    transition-property: transform, opacity !important;
+    transition-duration: 150ms !important;
+  }
+
+  /* Disable hover effects that cause repaints */
+  .hover\:border-blue-500:hover,
+  .hover\:shadow-lg:hover,
+  .hover\:bg-white:hover,
+  .hover\:scale-105:hover,
+  .hover\:translate-y-1:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: inherit !important;
+  }
+}
+
+/* Optimize gradient transitions to use cheaper properties */
+.optimize-transitions {
+  transition-property: opacity, transform;
+  transition-duration: 300ms;
+}
